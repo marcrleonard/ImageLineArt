@@ -39,6 +39,9 @@ all_pixels = np.array(yo) # im2arr.shape: height x width x channel
 #
 # print(all_pixels)
 
+import datetime
+
+t1 = datetime.datetime.utcnow()
 
 dwg = svgwrite.Drawing('asd.svg',
                        # size=('{}px'.format(width), '{}px'.format(height))
@@ -54,7 +57,8 @@ rect = Rect(insert=(0,0), size=('100%', '100%'),
 
 dwg.add(rect)
 
-g = dwg.add(Group())
+# g = dwg.add()
+g = Group()
 
 
 
@@ -113,12 +117,12 @@ for y, row in enumerate(all_pixels):
         d = ''
 
 
-        obj = spath.Path(stroke=svgwrite.rgb(10, 10, 16, '%'))
+        # obj = spath.Path(stroke=svgwrite.rgb(10, 10, 16, '%'))
 
-        # obj_add = Polyline([(0, y)], stroke=svgwrite.rgb(10, 10, 16, '%'), fill_opacity=0)
+        obj = Polyline(points=[(0, y)], stroke=svgwrite.rgb(10, 10, 16, '%'), fill_opacity=0)
 
-        s1 = 'M {} {}'.format(0, y)
-        p3 = dwg.path(d=s1, stroke_width=1, stroke='black', fill='none')
+        # s1 = 'M {} {}'.format(0, y)
+        # p3 = dwg.path(d=s1, stroke_width=1, stroke='black', fill='none')
         # top left to top right
 
         l1l = []
@@ -128,17 +132,26 @@ for y, row in enumerate(all_pixels):
 
                 pixel = (pixel - 255) * -1 * scale
 
-                l1l.append(x)
-                l1l.append(y - pixel)
+                obj.points.append((x, y - pixel))
+                # obj.points.append()
+                # l1l.append(x)
+                # l1l.append(y - pixel)
 
 
-        p3.push('L', l1l)
+        # p3.push('L', l1l)
         num_line += 1
 
-        g.add(p3)
+        g.add(obj)
 
 
 print(num_line)
+dwg.add(g)
 dwg.saveas('asd_poly.svg', pretty=True)
 
+t2 = datetime.datetime.utcnow()
 
+t = str((t2-t1).total_seconds()/60)
+
+print(t + ' minutes')
+
+#  0.6258882666666667 minutes
