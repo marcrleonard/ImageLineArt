@@ -65,8 +65,9 @@ g = Group()
 low_clip = .15
 high_clip = .65
 
-spacing = 9
-# spacing = 6
+x_spacing = 6
+y_spacing = 10
+
 circle_size = .05
 
 num_line=0
@@ -112,14 +113,19 @@ prev_y = 0
 
 
 for y, row in enumerate(all_pixels):
-    if (y % spacing == 0):
+    if (y % y_spacing == 0):
 
         d = ''
 
 
         # obj = spath.Path(stroke=svgwrite.rgb(10, 10, 16, '%'))
 
-        obj = Polyline(points=[(0, y)], stroke=svgwrite.rgb(10, 10, 16, '%'), fill_opacity=0)
+        obj = Polyline(points=[(0, y)],
+                       stroke=svgwrite.rgb(10, 10, 16, '%'),
+                       fill_opacity=0,
+                       # fill='white'
+                       )
+
 
         # s1 = 'M {} {}'.format(0, y)
         # p3 = dwg.path(d=s1, stroke_width=1, stroke='black', fill='none')
@@ -128,17 +134,12 @@ for y, row in enumerate(all_pixels):
         l1l = []
         for x, pixel in enumerate(row):
 
-            if (x % spacing  == 0 ):
+            if (x % x_spacing  == 0 ):
 
                 pixel = (pixel - 255) * -1 * scale
 
                 obj.points.append((x, y - pixel))
-                # obj.points.append()
-                # l1l.append(x)
-                # l1l.append(y - pixel)
 
-
-        # p3.push('L', l1l)
         num_line += 1
 
         g.add(obj)
@@ -153,5 +154,7 @@ t2 = datetime.datetime.utcnow()
 t = str((t2-t1).total_seconds()/60)
 
 print(t + ' minutes')
+
+print('file:///Users/marcleonard/Projects/ImageLineArt/asd_poly.svg')
 
 #  0.6258882666666667 minutes

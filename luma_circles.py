@@ -79,19 +79,28 @@ for y, row in enumerate(all_pixels):
             if (x % spacing  == 0 ):
 
 
+
+                organic_x = True
+                o_x = 0
+                if organic_x:
+                    import random
+
+                    o_x = random.uniform(-1.5, 1.5)
+
+
                 value = ( value - 255) * -1
                 size = value*circle_size
 
                 obj_add = None
 
                 if size > high_clip:
-                    obj_add = Polyline([(y, x),(y, x+1)],
+                    obj_add = Polyline([(y, x + o_x),(y, x + 1 + o_x)],
                                        stroke='black',
                                        fill_opacity=0,
                                        )
 
                 if size > low_clip:
-                    obj_add = dwg.circle(center=(y, x),
+                    obj_add = dwg.circle(center=(y, x + o_x),
                                          r=size,
                                          stroke='black',
                                          fill_opacity=0,
